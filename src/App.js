@@ -11,14 +11,12 @@ function App() {
   return (
     <Router>
       <NavBar />
-      <main className='App'>
         <Routes>
           <Route index element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={<Profile />} />
         </Routes>
         <Footer />
-      </main>
     </Router>
   );
 }

@@ -6,7 +6,7 @@ import FeatureItem from '../components/FeatureItem';
 
 export default function Home() {
   return (
-    <React.Fragment>
+    <main>
       <div className='hero'>
         <section className='hero-content'>
           <h2 className='sr-only'>Promoted Content</h2>
@@ -34,6 +34,6 @@ export default function Home() {
           is always safe.'
         />
       </section>
-    </React.Fragment>
+    </main>
   );
 }
