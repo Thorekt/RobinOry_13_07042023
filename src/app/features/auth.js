@@ -6,6 +6,7 @@ const { actions, reducer } = createSlice({
   initialState: {
     status: 'void',
     token: null,
+    isLoggedIn: false,
     error: null,
   },
   reducers: {
@@ -14,6 +15,8 @@ const { actions, reducer } = createSlice({
         payload: { email, password },
       }),
       reducer: (state, action) => {
+        state.isLoggedIn = false;
+        state.error = null;
         state.status = 'pending';
         return;
       },
@@ -25,6 +28,7 @@ const { actions, reducer } = createSlice({
       reducer: (state, action) => {
         state.status = 'resolved';
         state.token = action.payload.data.body.token;
+        state.isLoggedIn = true;
         return;
       },
     },
@@ -33,6 +37,7 @@ const { actions, reducer } = createSlice({
         payload: { error },
       }),
       reducer: (state, action) => {
+        state.isLoggedIn = false;
         state.status = 'rejected';
         state.error = action.payload;
         return;
