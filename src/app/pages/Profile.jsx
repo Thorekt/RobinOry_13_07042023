@@ -1,14 +1,23 @@
 import React from 'react';
 import Account from '../components/Account';
+import { useSelector } from 'react-redux';
+import { selectProfile } from '../selectors';
 
 export default function Profile() {
+  const { profileData } = useSelector(selectProfile);
+  
+  if (!profileData) {
+    return <div>Loading...</div>;
+  }
+
+  const { firstName, lastName } = profileData;
   return (
     <main className='main bg-dark'>
       <div className='header'>
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {`${firstName} ${lastName}!`}
         </h1>
         <button className='edit-button'>Edit Name</button>
       </div>
