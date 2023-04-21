@@ -1,12 +1,19 @@
 import React from 'react';
 import logo from '../img/argentBankLogo.png';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAuth, selectProfile } from '../selectors';
+import { logout } from '../features/auth';
 
 export default function NavBar() {
+  const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(selectAuth);
   const { profileData } = useSelector(selectProfile);
+
+  function handleLogout() {
+    dispatch(logout());
+  }
+
   return (
     <nav className='main-nav'>
       <Link className='main-nav-logo' to='/'>
@@ -24,7 +31,7 @@ export default function NavBar() {
               <i className='fa fa-user-circle'></i>
               {profileData.firstName}
             </Link>
-            <Link className='main-nav-item' to='/'>
+            <Link className='main-nav-item' to='/' onClick={handleLogout}>
               <i className='fa fa-sign-out'></i>
               Sign Out
             </Link>

@@ -10,6 +10,12 @@ const { actions, reducer } = createSlice({
     error: null,
   },
   reducers: {
+    reset: (state, action) => {
+      state.profileData = null;
+      state.status = 'void';
+      state.error = null;
+      return;
+    },
     fetching: {
       prepare: (tokenAuth) => ({
         payload: { tokenAuth },
@@ -43,7 +49,7 @@ const { actions, reducer } = createSlice({
   },
 });
 
-const { fetching, resolved, rejected } = actions;
+const { reset, fetching, resolved, rejected } = actions;
 
 export function fetchOrUpdateProfile(tokenAuth) {
   return async (dispatch, getState) => {
@@ -64,12 +70,15 @@ export function fetchOrUpdateProfile(tokenAuth) {
         }
       );
       const data = await response.json();
-      console.log(data.body);
       dispatch(resolved(data.body));
     } catch (error) {
       dispatch(rejected(error));
     }
   };
+}
+
+export function resetProfile() {
+  return (dispatch) => dispatch(reset());
 }
 
 export default reducer;

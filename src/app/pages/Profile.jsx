@@ -1,11 +1,17 @@
 import React from 'react';
 import Account from '../components/Account';
 import { useSelector } from 'react-redux';
-import { selectProfile } from '../selectors';
+import { selectAuth, selectProfile } from '../selectors';
+import { Navigate } from 'react-router-dom';
 
 export default function Profile() {
   const { profileData } = useSelector(selectProfile);
-  
+  const { isLoggedIn } = useSelector(selectAuth);
+
+  if (!isLoggedIn) {
+    return <Navigate to='/login' replace={true} />;
+  }
+
   if (!profileData) {
     return <div>Loading...</div>;
   }

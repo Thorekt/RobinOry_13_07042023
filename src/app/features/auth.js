@@ -10,6 +10,13 @@ const { actions, reducer } = createSlice({
     error: null,
   },
   reducers: {
+    reset: (state, action) => {
+      state.isLoggedIn = false;
+      state.token = null;
+      state.status = 'void';
+      state.error = null;
+      return;
+    },
     fetching: {
       prepare: (email, password) => ({
         payload: { email, password },
@@ -46,7 +53,13 @@ const { actions, reducer } = createSlice({
   },
 });
 
-const { fetching, resolved, rejected } = actions;
+const { reset, fetching, resolved, rejected } = actions;
+
+export function logout() {
+  return (dispatch) => {
+    dispatch(reset());
+  };
+}
 
 export function login(email, password) {
   return async (dispatch, getState) => {

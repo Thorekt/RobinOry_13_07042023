@@ -8,7 +8,7 @@ import Login from './app/pages/Login';
 import Profile from './app/pages/Profile';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth, selectProfile } from './app/selectors';
-import { fetchOrUpdateProfile } from './app/features/profile';
+import { fetchOrUpdateProfile, resetProfile } from './app/features/profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +18,9 @@ function App() {
   useEffect(() => {
     if (isLoggedIn && profileData === null) {
       dispatch(fetchOrUpdateProfile(token));
+    }
+    if (!isLoggedIn && profileData !== null) {
+      dispatch(resetProfile());
     }
   });
 
