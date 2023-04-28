@@ -11,7 +11,7 @@ const { actions, reducer } = createSlice({
     error: null,
   },
   reducers: {
-    reset: (state, action) => {
+    reset: (state) => {
       state.isLoggedIn = false;
       state.token = null;
       state.status = 'void';
@@ -19,10 +19,10 @@ const { actions, reducer } = createSlice({
       return;
     },
     fetching: {
-      prepare: (email, password) => ({
-        payload: { email, password },
+      prepare: () => ({
+        payload: {},
       }),
-      reducer: (state, action) => {
+      reducer: (state) => {
         state.isLoggedIn = false;
         state.error = null;
         state.status = 'pending';
@@ -30,12 +30,12 @@ const { actions, reducer } = createSlice({
       },
     },
     resolved: {
-      prepare: (data) => ({
-        payload: { data },
+      prepare: (token) => ({
+        payload: { token },
       }),
       reducer: (state, action) => {
         state.status = 'resolved';
-        state.token = action.payload.data.body.token;
+        state.token = action.payload.token;
         state.isLoggedIn = true;
         return;
       },
@@ -46,8 +46,9 @@ const { actions, reducer } = createSlice({
       }),
       reducer: (state, action) => {
         state.isLoggedIn = false;
+        state.token = null;
         state.status = 'rejected';
-        state.error = action.payload;
+        state.error = action.payload.error;
         return;
       },
     },
@@ -59,6 +60,7 @@ const { reset, fetching, resolved, rejected } = actions;
 export function logout() {
   return (dispatch) => {
     dispatch(reset());
+    sessionStorage.setItem('token', '');
   };
 }
 
@@ -68,7 +70,7 @@ export function login(email, password) {
     if (status === 'pending') {
       return;
     }
-    dispatch(fetching(email, password));
+    dispatch(fetching());
     try {
       const response = await fetch(AUTH_URL, {
         method: 'POST',
@@ -81,9 +83,19 @@ export function login(email, password) {
       if (data.status !== 200) {
         throw new Error(data.message);
       }
-      dispatch(resolved(data));
+      const token = data.body.token;
+      dispatch(resolved(token));
+      sessionStorage.setItem('token', token);
     } catch (error) {
       dispatch(rejected(JSON.stringify(error)));
+    }
+  };
+}
+
+export function loginWithToken(token) {
+  return (dispatch) => {
+    if(token !== undefined && token !== null && token !== '') {
+      dispatch(resolved(token));
     }
   };
 }

@@ -9,6 +9,7 @@ import Profile from './app/pages/Profile';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth, selectProfile } from './app/selectors';
 import { fetchProfile, resetProfile } from './app/features/profile';
+import { loginWithToken } from './app/features/auth';
 
 function App() {
   const dispatch = useDispatch();
@@ -16,6 +17,10 @@ function App() {
   const { profileData } = useSelector(selectProfile);
 
   useEffect(() => {
+    console.log(sessionStorage.token);
+    if(!isLoggedIn && sessionStorage.token !== undefined && sessionStorage.token !== null && sessionStorage.token !== ''){
+      dispatch(loginWithToken(sessionStorage.token));
+    }
     if (isLoggedIn && profileData === null) {
       dispatch(fetchProfile());
     }

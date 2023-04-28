@@ -55,7 +55,7 @@ const { actions, reducer } = createSlice({
         payload: { error },
       }),
       reducer: (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload.error;
         state.status = 'rejected';
         return;
       },
@@ -85,6 +85,9 @@ export function fetchProfile() {
         }
       );
       const data = await response.json();
+      if (data.status !== 200) {
+        throw new Error(data.message);
+      }
       dispatch(resolved(data.body));
     } catch (error) {
       dispatch(rejected(error));
@@ -124,6 +127,9 @@ export function editProfile(firstName, lastName) {
         }
       );
       const data = await response.json();
+      if (data.status !== 200) {
+        throw new Error(data.message);
+      }
       dispatch(resolved(data.body));
     } catch (error) {
       dispatch(rejected(error));
