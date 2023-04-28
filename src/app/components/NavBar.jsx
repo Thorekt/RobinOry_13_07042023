@@ -10,9 +10,9 @@ export default function NavBar() {
   const { isLoggedIn } = useSelector(selectAuth);
   const { profileData } = useSelector(selectProfile);
 
-  function handleLogout() {
+  const handleLogout = () => {
     dispatch(logout());
-  }
+  };
 
   return (
     <nav className='main-nav'>

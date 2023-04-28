@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { selectProfile } from '../selectors';
+import { selectProfile, selectAuth  } from '../selectors';
+import { PROFILE_URL } from '../config';
+
+
+
 const { actions, reducer } = createSlice({
   name: 'profile',
   initialState: {
@@ -10,17 +14,27 @@ const { actions, reducer } = createSlice({
     error: null,
   },
   reducers: {
-    reset: (state, action) => {
+    reset: (state) => {
       state.profileData = null;
       state.status = 'void';
       state.error = null;
       return;
     },
-    fetching: {
-      prepare: (tokenAuth) => ({
-        payload: { tokenAuth },
+    editing:{
+      prepare: () => ({
+        payload: {},
       }),
-      reducer: (state, action) => {
+      reducer: (state) => {
+        state.error = null;
+        state.status = 'pending';
+        return;
+      },
+    },
+    fetching: {
+      prepare: () => ({
+        payload: {  },
+      }),
+      reducer: (state) => {
         state.error = null;
         state.status = 'pending';
         return;
@@ -49,24 +63,64 @@ const { actions, reducer } = createSlice({
   },
 });
 
-const { reset, fetching, resolved, rejected } = actions;
+const { reset, editing, fetching, resolved, rejected } = actions;
 
-export function fetchOrUpdateProfile(tokenAuth) {
+export function fetchProfile() {
   return async (dispatch, getState) => {
-    const { status } = selectProfile(getState());
+    const { status } = selectProfile(getState());    
+    const { token } = selectAuth(getState());
     if (status === 'pending') {
       return;
     }
-    dispatch(fetching(tokenAuth));
+    dispatch(fetching());
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/user/profile`,
+        PROFILE_URL,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + tokenAuth,
+            Authorization: `Bearer ${token}`,
           },
+        }
+      );
+      const data = await response.json();
+      dispatch(resolved(data.body));
+    } catch (error) {
+      dispatch(rejected(error));
+    }
+  };
+}
+
+export function editProfile(firstName, lastName) {
+  return async (dispatch, getState) => {
+    const { status,profileData } = selectProfile(getState());
+    const { token } = selectAuth(getState());
+    if (firstName.length === 0 && lastName.length === 0) {
+      return;
+    }
+
+    if (status === 'pending') {
+      return;
+    }
+    dispatch(editing());
+
+    firstName.length === 0 ? firstName = profileData.firstName : firstName = firstName;
+    lastName.length === 0 ? lastName = profileData.lastName : lastName = lastName;
+    
+    try {
+      const response = await fetch(
+        PROFILE_URL,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+          }),
         }
       );
       const data = await response.json();

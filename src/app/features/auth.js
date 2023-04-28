@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { selectAuth } from '../selectors';
+import { AUTH_URL } from '../config';
 
 const { actions, reducer } = createSlice({
   name: 'auth',
@@ -69,7 +70,7 @@ export function login(email, password) {
     }
     dispatch(fetching(email, password));
     try {
-      const response = await fetch(`http://localhost:3001/api/v1/user/login`, {
+      const response = await fetch(AUTH_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
