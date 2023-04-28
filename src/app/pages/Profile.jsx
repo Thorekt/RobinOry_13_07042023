@@ -39,27 +39,29 @@ export default function Profile() {
           <React.Fragment>
             <h1>Welcome back</h1>
             <form className='edit-form' onSubmit={handleProfileEdit}>
-              <div className='input-wrapper'>
-                <label htmlFor='first-name'>First Name</label>
-                <input type='text' id='first-name' placeholder={firstName} />
-              </div>
-              <div className='input-wrapper'>
-                <label htmlFor='last-name'>Last Name</label>
-                <input type='text' id='last-name' placeholder={lastName} />
-              </div>
-              <button
-                type='submit'
-                className='edit-button'
-              >
-                Save
-              </button>
-              <button
-                type='button'
-                className='edit-button'
-                onClick={toggleEditMode}
-              >
-                cancel
-              </button>
+              <fieldset>
+                <div className='input-wrapper'>
+                  <input type='text' id='first-name' placeholder={firstName} />
+                </div>
+                <div className='input-wrapper'>
+                  <input type='text' id='last-name' placeholder={lastName} />
+                </div>
+              </fieldset>
+              <fieldset>
+                <button
+                  type='submit'
+                  className='edit-button'
+                >
+                  Save
+                </button>
+                <button
+                  type='button'
+                  className='edit-button'
+                  onClick={toggleEditMode}
+                >
+                  cancel
+                </button>
+              </fieldset>
             </form>
           </React.Fragment>
         ) : (

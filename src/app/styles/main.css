@@ -214,6 +214,15 @@ body {
   padding: 0;
 }
 
+.edit-form fieldset {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
 .account {
   display: flex;
   justify-content: space-between;
