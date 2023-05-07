@@ -17,7 +17,6 @@ function App() {
   const { profileData } = useSelector(selectProfile);
 
   useEffect(() => {
-    console.log(sessionStorage.token);
     if(!isLoggedIn && sessionStorage.token !== undefined && sessionStorage.token !== null && sessionStorage.token !== ''){
       dispatch(loginWithToken(sessionStorage.token));
     }
@@ -27,7 +26,7 @@ function App() {
     if (!isLoggedIn && profileData !== null) {
       dispatch(resetProfile());
     }
-  });
+  }, [isLoggedIn,profileData,dispatch]);
 
   return (
     <Router>
