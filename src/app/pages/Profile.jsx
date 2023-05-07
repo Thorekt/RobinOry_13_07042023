@@ -5,6 +5,21 @@ import { selectAuth, selectProfile } from '../selectors';
 import { Navigate } from 'react-router-dom';
 import { editProfile } from '../features/profile';
 
+const accounts = [
+  {
+    name: 'Argent Bank Checking (x8349)',
+    amount: '2,082.79',
+  },
+  {
+    name: 'Argent Bank Savings (x6712)',
+    amount: '10,928.42',
+  },
+  {
+    name: 'Argent Bank Credit Card (x8349)',
+    amount: '184.30',
+  },
+]
+
 export default function Profile() {
   document.title = 'Argent Bank - Profile';
 
@@ -81,9 +96,10 @@ export default function Profile() {
         )}
       </div>
       <h2 className='sr-only'>Accounts</h2>
-      <Account title='Argent Bank Checking (x8349)' amount='$2,082.79' />
-      <Account title='Argent Bank Savings (x6712)' amount='$10,928.42' />
-      <Account title='Argent Bank Credit Card (x8349)' amount='$184.30' />
+
+      {accounts.map((account, index) => (        
+        <Account title={account.name} amount={account.amount} key={index} />
+      ))}
     </main>
   );
 }
