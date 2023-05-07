@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './app/pages/Home';
 import Login from './app/pages/Login';
 import Profile from './app/pages/Profile';
+import Error from './app/pages/Error';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth, selectProfile } from './app/selectors';
 import { fetchProfile, resetProfile } from './app/features/profile';
@@ -35,6 +36,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/*' element={<Error />} />
       </Routes>
       <Footer />
     </Router>
