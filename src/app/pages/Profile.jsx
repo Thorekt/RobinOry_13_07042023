@@ -6,6 +6,8 @@ import { Navigate } from 'react-router-dom';
 import { editProfile } from '../features/profile';
 
 export default function Profile() {
+  document.title = 'Argent Bank - Profile';
+
   const { profileData } = useSelector(selectProfile);
   const { isLoggedIn } = useSelector(selectAuth);
   const [editMode, setEditMode] = useState(false);

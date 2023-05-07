@@ -29,8 +29,7 @@ const features = [
 ];
 
 export default function Home() {
-
-
+  document.title = 'Argent Bank - Home';
 
   return (
     <main>

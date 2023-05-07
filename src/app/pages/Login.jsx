@@ -5,6 +5,8 @@ import { selectAuth } from '../selectors';
 import { Navigate } from 'react-router-dom';
 
 export default function Login() {
+  document.title = 'Argent Bank - Login';
+
   const dispatch = useDispatch();
   const { isLoggedIn,  } = useSelector(selectAuth);
 

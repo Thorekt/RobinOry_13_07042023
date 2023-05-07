@@ -1,4 +1,6 @@
 export default function Error() {
+    document.title = 'Argent Bank - Error';
+
     return (    
         <main>
             <div className='hero'>

@@ -29,6 +29,8 @@ function App() {
     }
   }, [isLoggedIn,profileData,dispatch]);
 
+
+
   return (
     <Router>
       <NavBar />
