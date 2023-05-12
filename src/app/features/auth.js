@@ -87,6 +87,7 @@ export function login(email, password) {
       dispatch(resolved(token));
       sessionStorage.setItem('token', token);
     } catch (error) {
+      console.log(error)
       dispatch(rejected(JSON.stringify(error)));
     }
   };

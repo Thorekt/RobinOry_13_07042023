@@ -8,11 +8,13 @@ export default function Login() {
   document.title = 'Argent Bank - Login';
 
   const dispatch = useDispatch();
-  const { isLoggedIn,  } = useSelector(selectAuth);
+  const { isLoggedIn, status} = useSelector(selectAuth);
 
   if (isLoggedIn) {
     return <Navigate to='/profile' replace={true} />;
   }
+
+  
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -35,6 +37,11 @@ export default function Login() {
             <label htmlFor='password'>Password</label>
             <input type='password' id='password' />
           </div>
+          {status === 'rejected' && (
+            <div className='input-error'>
+              <span>Invalid username or password</span>
+            </div>
+          )}
           <div className='input-remember'>
             <input type='checkbox' id='remember-me' />
             <label htmlFor='remember-me'>Remember me</label>
